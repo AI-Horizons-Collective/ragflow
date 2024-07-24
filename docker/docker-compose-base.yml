@@ -3,7 +3,7 @@ services:
     container_name: ragflow-es-01
     image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
     volumes:
-      - esdata01:/usr/share/elasticsearch/data
+      - /data/ragflow-data/esdata01:/usr/share/elasticsearch/data
     ports:
       - ${ES_PORT}:9200
     environment:
@@ -45,7 +45,7 @@ services:
     ports:
       - ${MYSQL_PORT}:3306
     volumes:
-      - mysql_data:/var/lib/mysql
+      - /data/ragflow-data/mysql_data:/var/lib/mysql
       - ./init.sql:/data/application/init.sql
     networks:
       - ragflow
@@ -68,7 +68,7 @@ services:
       - MINIO_ROOT_PASSWORD=${MINIO_PASSWORD}
       - TZ=${TIMEZONE}
     volumes:
-      - minio_data:/data
+      - /data/ragflow-data/minio_data:/data
     networks:
       - ragflow
     restart: always
@@ -80,22 +80,22 @@ services:
     ports:
       - ${REDIS_PORT}:6379
     volumes:
-      - redis_data:/data
+      - /data/ragflow-data/redis_data:/data
     networks:
       - ragflow
     restart: always
 
 
 
-volumes:
-  esdata01:
-    driver: local
-  mysql_data:
-    driver: local
-  minio_data:
-    driver: local
-  redis_data:
-    driver: local
+#volumes:
+#  esdata01:
+#    driver: local
+#  mysql_data:
+#    driver: local
+#  minio_data:
+#    driver: local
+#  redis_data:
+#    driver: local
 
 networks:
   ragflow:
